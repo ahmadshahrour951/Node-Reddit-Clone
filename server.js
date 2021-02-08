@@ -1,17 +1,19 @@
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
+
 const express = require('express');
-require('./data/reddit-db');
-
-const app = express();
-const PORT = process.env.PORT;
-
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
+const exphbs = require('express-handlebars');
+
+require('./data/reddit-db');
+const Post = require('./models/post');
+const PORT = process.env.PORT;
+
+const app = express();
 
 // Handlebars
-const exphbs = require('express-handlebars');
 app.engine(
   'hbs',
   exphbs({
@@ -32,7 +34,14 @@ app.use(expressValidator());
 require('./controllers/posts.js')(app);
 
 app.get('/', (req, res) => {
-  res.render('home');
+    Post.find({})
+      .lean()
+      .then((posts) => {
+        res.render('posts-index', { posts });
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
 });
 
 app.get('/posts/new', (req, res) => {
