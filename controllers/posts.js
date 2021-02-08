@@ -1,6 +1,10 @@
 const Post = require('../models/post');
 
 module.exports = (app) => {
+  app.get('/posts/new', (req, res) => {
+    res.render('posts-new');
+  });
+
   app.post('/posts/new', (req, res) => {
     const post = new Post(req.body);
     post.save((err, post) => {
@@ -11,6 +15,7 @@ module.exports = (app) => {
   app.get('/posts/:id', function (req, res) {
     Post.findById(req.params.id)
       .lean()
+      .populate('comments')
       .then((post) => {
         res.render('posts-show', { post });
       })

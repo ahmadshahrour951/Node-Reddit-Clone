@@ -32,8 +32,9 @@ app.use(expressValidator());
 
 //==================CONTROLLERS=======================\\
 require('./controllers/posts.js')(app);
+require('./controllers/comments.js')(app);
 
-app.get('/', (req, res) => {
+  app.get('/', (req, res) => {
     Post.find({})
       .lean()
       .then((posts) => {
@@ -42,11 +43,8 @@ app.get('/', (req, res) => {
       .catch((err) => {
         console.log(err.message);
       });
-});
+  });
 
-app.get('/posts/new', (req, res) => {
-  res.render('posts-new')
-});
 
 //====================LISTEN============================\\
 module.exports = app;
