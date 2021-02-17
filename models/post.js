@@ -7,8 +7,11 @@ const PostSchema = new Schema({
   summary: { type: String, required: true },
   subreddit: { type: String, required: true },
   comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
-  author : { type: Schema.Types.ObjectId, ref: "User", required: true },
-  posts : [{ type: Schema.Types.ObjectId, ref: "Post" }],
+  author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
+  upVotes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  downVotes: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  voteScore: { type: Number },
   createdAt: { type: Date },
   updatedAt: { type: Date },
 });
@@ -23,8 +26,6 @@ PostSchema.pre('save', function (next) {
 });
 
 // Always populate the author field
-PostSchema
-    .pre('findOne', Populate('author'))
-    .pre('find', Populate('author'))
+PostSchema.pre('findOne', Populate('author')).pre('find', Populate('author'));
 
 module.exports = mongoose.model('Post', PostSchema);

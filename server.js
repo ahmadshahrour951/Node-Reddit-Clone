@@ -15,6 +15,7 @@ const PORT = process.env.PORT;
 const app = express();
 
 //==================MIDDLEWARE=======================\\
+app.use(express.static('public'));
 // Cookie Parser
 app.use(cookieParser());
 

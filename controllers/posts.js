@@ -27,6 +27,9 @@ module.exports = (app) => {
     if (req.user) {
       var post = new Post(req.body);
       post.author = req.user._id;
+      post.upVotes = [];
+      post.downVotes = [];
+      post.voteScore = 0;
 
       post
         .save()
@@ -48,29 +51,49 @@ module.exports = (app) => {
   });
 
   // SHOW
-app.get('/posts/:id', function (req, res) {
-  var currentUser = req.user;
-  Post.findById(req.params.id)
-    .populate('comments')
-    .lean()
-    .then((post) => {
-      res.render('posts-show', { post, currentUser });
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
-});
+  app.get('/posts/:id', function (req, res) {
+    var currentUser = req.user;
+    Post.findById(req.params.id)
+      .populate('comments')
+      .lean()
+      .then((post) => {
+        res.render('posts-show', { post, currentUser });
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  });
 
   // SUBREDDIT
-app.get('/n/:subreddit', function (req, res) {
-  var currentUser = req.user;
-  Post.find({ subreddit: req.params.subreddit })
-    .lean()
-    .then((posts) => {
-      res.render('posts-index', { posts, currentUser });
-    })
-    .catch((err) => {
-      console.log(err);
+  app.get('/n/:subreddit', function (req, res) {
+    var currentUser = req.user;
+    Post.find({ subreddit: req.params.subreddit })
+      .lean()
+      .then((posts) => {
+        res.render('posts-index', { posts, currentUser });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+
+  app.put('/posts/:id/vote-up', function (req, res) {
+    Post.findById(req.params.id).exec(function (err, post) {
+      post.upVotes.push(req.user._id);
+      post.voteScore = post.voteScore + 1;
+      post.save();
+
+      res.status(200);
     });
-});
+  });
+
+  app.put('/posts/:id/vote-down', function (req, res) {
+    Post.findById(req.params.id).exec(function (err, post) {
+      post.downVotes.push(req.user._id);
+      post.voteScore = post.voteScore - 1;
+      post.save();
+
+      res.status(200);
+    });
+  });
 };
