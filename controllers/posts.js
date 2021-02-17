@@ -1,15 +1,33 @@
 const Post = require('../models/post');
 
 module.exports = (app) => {
+  app.get('/', (req, res) => {
+    var currentUser = req.user;
+
+    Post.find({})
+      .then((posts) => {
+        res.render('posts-index', { posts, currentUser });
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  });
+
   app.get('/posts/new', (req, res) => {
     res.render('posts-new');
   });
 
+  // CREATE
   app.post('/posts/new', (req, res) => {
-    const post = new Post(req.body);
-    post.save((err, post) => {
-      return res.redirect(`/`);
-    });
+    if (req.user) {
+      var post = new Post(req.body);
+
+      post.save(function (err, post) {
+        return res.redirect(`/`);
+      });
+    } else {
+      return res.status(401); // UNAUTHORIZED
+    }
   });
 
   app.get('/posts/:id', function (req, res) {

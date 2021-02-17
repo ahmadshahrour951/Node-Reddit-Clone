@@ -4,26 +4,31 @@
       <a href="/" class="d-inline nav-link">
         Reddit.js
       </a>
-      <a href="/posts/new" class="d-inline btn btn-primary navbar-btn">
-        New Post
-      </a>
+      {{#if currentUser}}
+        <a href="/posts/new" class="d-inline btn btn-primary navbar-btn">
+          New Post
+        </a>
+      {{/if}}
     </div>
-    <ul class="d-block navbar-nav navbar-right mr-auto">
-      <li>
-        <a href="/logout">
-          Logout
-        </a>
-      </li>
-      <li>
-        <a href="/login">
-          Login
-        </a>
-      </li>
-      <li>
-        <a href="/sign-up">
-          Sign Up
-        </a>
-      </li>
+    <ul class="d-block nav navbar-nav navbar-right">
+      {{#if currentUser}}
+        <li>
+          <a href="/logout">
+            Logout
+          </a>
+        </li>
+      {{else}}
+        <li>
+          <a href="/login">
+            Login
+          </a>
+        </li>
+        <li>
+          <a href="/sign-up">
+            Sign Up
+          </a>
+        </li>
+      {{/if}}
     </ul>
   </div>
 </nav>
