@@ -3,6 +3,11 @@
     <a href="{{post.url}}" class="lead">
       {{post.title}}
     </a>
+    <a href="/users/:{{post.author.username}}">
+      <p>
+        {{post.author.username}}
+      </p>
+    </a>
     <p>
       {{post.summary}}
     </p>
