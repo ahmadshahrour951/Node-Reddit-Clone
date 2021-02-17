@@ -13,6 +13,9 @@ const PORT = process.env.PORT;
 
 const app = express();
 
+// Cookie Parser
+app.use(cookieParser());
+
 // Handlebars
 app.engine(
   'hbs',
@@ -33,6 +36,7 @@ app.use(expressValidator());
 //==================CONTROLLERS=======================\\
 require('./controllers/posts.js')(app);
 require('./controllers/comments.js')(app);
+require('./controllers/auth.js')(app);
 
   app.get('/', (req, res) => {
     Post.find({})
