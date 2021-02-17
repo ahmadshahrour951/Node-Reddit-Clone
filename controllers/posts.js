@@ -5,6 +5,7 @@ module.exports = (app) => {
     var currentUser = req.user;
 
     Post.find({})
+      .lean()
       .then((posts) => {
         res.render('posts-index', { posts, currentUser });
       })
