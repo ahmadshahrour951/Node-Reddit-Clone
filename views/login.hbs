@@ -2,36 +2,41 @@
   <div class="col-sm-4 col-sm-offset-4">
     <form action="/login" method="post">
       <legend>
-        Log In
+        Login
       </legend>
       <div class="form-group">
-        <label for="sign-up-username">
+        <label for="username">
           Username
         </label>
         <input
           type="text"
           name="username"
           class="form-control"
-          id="sign-up-username"
+          id="username"
           placeholder="Username"
         />
-      </div>
-      <div class="form-group">
-        <label for="sign-up-password">
+        <label for="password">
           Password
         </label>
         <input
           type="password"
           name="password"
           class="form-control"
-          id="sign-up-password"
+          id="password"
           placeholder="Password"
         />
       </div>
-      <div class="text-right">
-        <button type="submit" class="btn btn-primary">
-          Login
-        </button>
+      <div class="row">
+        <div class="col-6">
+          <a href="forgot_password">
+            forgot your password?
+          </a>
+        </div>
+        <div class="col-6 text-right">
+          <button type="submit" class="btn btn-primary">
+            Login
+          </button>
+        </div>
       </div>
     </form>
   </div>

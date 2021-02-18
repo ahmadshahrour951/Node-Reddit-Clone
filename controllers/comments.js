@@ -6,6 +6,7 @@ module.exports = function (app) {
   app.post('/posts/:postId/comments', function (req, res) {
     const comment = new Comment(req.body);
     comment.author = req.user._id;
+
     comment
       .save()
       .then((comment) => {

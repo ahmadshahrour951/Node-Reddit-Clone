@@ -18,25 +18,13 @@ describe('User', function () {
         done();
       });
   });
+});
 
-  it('should be able to signup', function (done) {
-    User.findOneAndRemove({ username: 'testone' }, function () {
-      agent
-        .post('/sign-up')
-        .send({ username: 'testone', password: 'password' })
-        .end(function (err, res) {
-          console.log(res.body);
-          res.should.have.status(200);
-          agent.should.have.cookie('nToken');
-          done();
-        });
-    });
-  });
-
-  // login
-  it('should be able to login', function (done) {
+// signup
+it('should be able to signup', function (done) {
+  User.findOneAndRemove({ username: 'testone' }, function () {
     agent
-      .post('/login')
+      .post('/sign-up')
       .send({ username: 'testone', password: 'password' })
       .end(function (err, res) {
         res.should.have.status(200);
@@ -44,14 +32,26 @@ describe('User', function () {
         done();
       });
   });
+});
 
-  // logout
-  it('should be able to logout', function (done) {
-    agent.get('/logout').end(function (err, res) {
+// login
+it('should be able to login', function (done) {
+  agent
+    .post('/login')
+    .send({ username: 'testone', password: 'password' })
+    .end(function (err, res) {
       res.should.have.status(200);
-      agent.should.not.have.cookie('nToken');
+      agent.should.have.cookie('nToken');
       done();
     });
+});
+
+// logout
+it('should be able to logout', function (done) {
+  agent.get('/logout').end(function (err, res) {
+    res.should.have.status(200);
+    agent.should.not.have.cookie('nToken');
+    done();
   });
 });
 

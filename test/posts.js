@@ -3,13 +3,14 @@ const app = require('./../server');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const expect = chai.expect;
-const agent = chai.request.agent(app);
 
 // Import the Post model from our models folder so we
 // we can use it in our tests.
 const Post = require('../models/post');
 const User = require('../models/user');
 const server = require('../server');
+
+const agent = chai.request.agent(app);
 
 chai.should();
 chai.use(chaiHttp);
@@ -21,6 +22,7 @@ describe('Posts', function () {
     title: 'post title',
     url: 'https://www.google.com',
     summary: 'post summary',
+    subreddit: 'test',
   };
 
   const user = {
